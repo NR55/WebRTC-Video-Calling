@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby</title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+    <div class="forms">
+    <h2>Welcome to the Lobby</h2>
+    <input type="submit" class="submit-btn" onclick="joinRoom()" value="Join an existing meeting"><br>
+    <input type="submit" class="submit-btn" onclick="createRoom()" value="Create a new meeting"><br>
+    <form id="logout-form" action="/logout" method="get">
+        <input type="submit" class="submit-btn" value="Logout">
+    </form>
+
+    <script>
+        // function joinRoom() {
+        //     var roomName = prompt("Enter room name:");
+        //     if (roomName) {
+        //         window.location.href = "/" + roomName;
+        //     }
+        // }
+
+        // function createRoom() {
+        //     window.location.href = "/create";
+        // }
+
+        function joinRoom() {
+                var roomName = prompt("Enter room name:");
+                if (roomName) {
+                    window.open("/" + roomName, "_blank"); 
+                }
+            }
+
+            function createRoom() {
+                window.open("/create", "_blank"); 
+            }
+    </script>
+</body>
+
+</html>

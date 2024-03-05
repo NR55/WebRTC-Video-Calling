@@ -1,0 +1,27 @@
+{
+  "name": "attempt1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "devStart": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "ejs": "^3.1.9",
+    "express": "^4.18.3",
+    "express-session": "^1.18.0",
+    "http": "^0.0.1-security",
+    "mongodb": "^6.4.0",
+    "mongoose": "^8.2.0",
+    "socket.io": "^4.7.4",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
