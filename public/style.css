@@ -40,7 +40,8 @@ body {
   font-size: 16px;
 }
 
-.forms input[type="submit"], input[type="submit"] {
+.forms input[type="submit"],
+input[type="submit"] {
   background-color: #4caf50;
   color: #ffffff;
   cursor: pointer;

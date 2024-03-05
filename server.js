@@ -84,6 +84,7 @@ app.post("/login", async (req, res) => {
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (passwordMatch) {
         req.session.isAuthenticated = true;
+        req.session.username = username;
         res.redirect("/");
       } else {
         res.render("login.ejs", { error: "Invalid username or password" });
@@ -117,22 +118,28 @@ app.get("/logout", (req, res) => {
 });
 
 app.get("/:room", isAuthenticated, (req, res) => {
-  res.render("room.ejs", { roomId: req.params.room });
+  res.render("room.ejs", { roomId: req.params.room , username: req.session.username});
 });
 
 app.get("/", isAuthenticated, (req, res) => {
   res.render("lobby.ejs");
 });
 
-io.on("connection", (socket) => {
-  socket.on("join-room", (roomId, userId) => {
+io.on('connection', socket => {
+  socket.on('join-room', (roomId, userId, username) => {
     socket.join(roomId);
-    socket.broadcast.to(roomId).emit("user-connected", userId);
-  });
-  socket.on("disconnect", (roomId, userId) => {
-    socket.broadcast.to(roomId).emit("user-disconnected", userId);
+    socket.broadcast.to(roomId).emit('user-connected', { userId, username });
+
+    socket.on('send-chat-message', message => {
+      io.to(roomId).emit('chat-message', message);
+    });
+
+    socket.on('disconnect', () => {
+      io.to(roomId).emit('user-disconnected', {userId, username});
+    });
   });
 });
+
 
 async function main() {
   await connectionEstb();
