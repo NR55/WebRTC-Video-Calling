@@ -77,9 +77,16 @@ video {
   margin-top: 10px;
 }
 
-#myMessage {
-    align-items: end;
+.myMessage {
     color: aqua;
+}
+
+.serverMessage {
+    color: red;
+}
+
+.others {
+    color: black;
 }
 
 input[type="submit"] {
