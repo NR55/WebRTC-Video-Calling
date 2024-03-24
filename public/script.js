@@ -25,6 +25,11 @@ function sendMessage(message) {
 function connectToNewUser(userId, stream, username) {
     const call = myPeer.call(userId, stream);
     const video = document.createElement('video');
+    video.setAttribute('data-username', username); // Set username as a data attribute
+    video.addEventListener('mouseover', function () {
+        this.title = username;
+        console.log(username);
+    });
     call.on('stream', userVideoStream => {
         addVideoStream(video, userVideoStream);
     });

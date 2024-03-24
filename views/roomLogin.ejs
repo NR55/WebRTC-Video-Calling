@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Room Login</title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>Room Login</h2>
+        <% if (error) { %>
+            <p id="message">
+                <%= error %>
+            </p>
+            <% } %>
+                <form action="/roomLogin" method="post">
+                    <div class="form-group">
+                        <label for="roomID">Room ID</label>
+                        <input type="text" name="roomID" placeholder="Room ID" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" placeholder="Password" />
+                    </div>
+
+                    <input type="submit" value="Join" class="submit-btn" />
+                </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Profile</title>
+    <style>
+        body {
+  font-family: Arial, sans-serif;
+  background-color: #222629;
+  color: #555; /* Changed text color to a more readable shade */
+  font-size: 15px;
+}
+
+h1 {
+  text-align: center; /* Centered the heading */
+  color: goldenrod; /* Changed heading color to golden */
+  margin-bottom: 20px; /* Added margin-bottom for better spacing */
+}
+
+.profile-data {
+  background-color: #fff;
+  padding: 20px;
+  margin: 20px auto;
+  width: 80%; /* Increased width for better visibility */
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-data p {
+  margin: 0;
+  color: #555;
+}
+
+table {
+  width: 100%; /* Ensured table takes full width */
+  border-collapse: collapse; /* Collapsed table borders for cleaner look */
+}
+
+th,
+td {
+  padding: 10px; /* Added padding for better spacing */
+  text-align: left; /* Aligned text to the left */
+  border-bottom: 1px solid #ddd; /* Added bottom border for table cells */
+}
+
+th {
+  background-color: #f2f2f2; /* Added background color for table header */
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between; /* Spaced out action buttons */
+}
+
+.submit-btn {
+  padding: 8px 15px; /* Adjusted padding for better button size */
+  background-color: goldenrod;
+  color: black;
+  font-size: 14px; /* Increased font size for better readability */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #b8860b;
+  color: #fff;
+}
+
+#message {
+  text-align: center; /* Centered the message */
+  margin-bottom: 20px; /* Added margin-bottom for better spacing */
+}
+
+/* Media query for responsiveness */
+@media screen and (max-width: 768px) {
+  .profile-data {
+    width: 90%; /* Adjusted width for smaller screens */
+  }
+}
+
+    </style>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <h1>Profile</h1>
+    <br>
+
+    <div class="profile-data">
+        <p><strong>Name:</strong>
+            <%= username %>
+        </p>
+    </div>
+    <br>
+    <div class="profile-data">
+        <p><strong>E-mail ID:</strong>
+            <%= email %>
+        </p>
+    </div>
+
+    <div id="message">
+        <%= message %>
+    </div>
+
+    <div class="profile-data">
+        <table>
+            <thead>
+                <tr>
+                    <th>Room Name</th>
+                    <th>Creation</th>
+                    <th>Description</th>
+                    <th rowspan="3">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% rooms.forEach(room=> { %>
+                    <tr>
+                        <td>
+                            <%= room.roomName %>
+                        </td>
+                        <td>
+                            <%= room.creation %>
+                        </td>
+                        <td>
+                            <%= room.description %>
+                        </td>
+                        <td>
+                            <form action="/<%= room.roomName %>" method="get">                            
+                            <input type="submit" class="submit-btn" value="Join">
+                            </form>
+                        <!-- </td>
+                        <td></td>
+                        <td> -->
+                            <form action="/delete/<%= room.roomName %>" method="post">
+                                <input type="submit" class="submit-btn" value="Delete" style="background-color: rgb(255, 55, 55);">
+                            </form>
+                        </td>
+                    </tr>
+                    <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+
+    <form action="/" method="get">
+        <input type="submit" class="submit-btn" value="Back">
+    </form>
+</body>
+
+</html>

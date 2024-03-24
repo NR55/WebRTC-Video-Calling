@@ -9,26 +9,27 @@
 </head>
 
 <body>
-    <div class="forms">
-    <h2>Welcome to the Lobby</h2>
-    <input type="submit" class="submit-btn" onclick="joinRoom()" value="Join an existing meeting"><br>
-    <input type="submit" class="submit-btn" onclick="createRoom()" value="Create a new meeting"><br>
+    <div class="form-container">
+    <h2>Welcome to the Lobby : <br> <%= username %></h2>
+    <input type="submit" class="submit-btn" onclick="joinRoom()" value="Join an Existing Meeting"><br>
+    <input type="submit" class="submit-btn" onclick="createRoom()" value="Create a New Meeting"><br>
+    <form id="form" action="/profile" method="get">
+    <input type="submit" class="submit-btn" onclick="profile()" value="Profile"><br>
+    </form>
     <form id="logout-form" action="/logout" method="get">
         <input type="submit" class="submit-btn" value="Logout">
     </form>
 
     <script>
         function joinRoom() {
-                var roomName = prompt("Enter room name:");
-                if (roomName) {
-                    window.open("/" + roomName, "_blank"); 
-                }
-            }
+                window.open("/roomLogin", "_blank");
+        }
 
-            function createRoom() {
-                window.open("/create", "_blank"); 
-            }
+        function createRoom() {
+            window.open("/create", "_blank"); 
+        }
     </script>
+
 </body>
 
 </html>

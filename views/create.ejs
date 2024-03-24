@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Room</title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+    <div class="form-container">
+        <h2>Create Room</h2>
+        <% if (error) { %>
+            <p class="message">
+                <%= error %>
+            </p>
+            <% } %>
+                <form action="/create" method="post">
+                    <div class="form-group">
+                        <label for="roomID">Room ID</label>
+                        <input type="text" id="roomName" name="roomName" placeholder="Room Name" required />
+                    </div>
+                    <input type="button" onclick="randomize()" value="Randomize" class="submit-btn"><br>
+
+                    <div class="form-group">
+                        <label for="roomID">Room ID</label>
+                        <input type="password" name="adminPassword" placeholder="Admin Password" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="roomID">Room ID</label>
+                        <input type="text" name="description" placeholder="Room Description" />
+                    </div>
+                    <label for="roomLocked">Room Locked:</label>
+                    <input type="hidden" name="roomLockedOutput" value="false" />
+                    <input type="checkbox" id="roomLockedCheck" name="roomLockedCheck" /><br>
+
+                    <div class="form-group">
+                        <input type="text" name="roomKey" id="roomKey" placeholder="Room Key" style="display: none;" />
+                    </div>
+                    <input type="submit" value="Create Room" class="submit-btn" />
+                </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuidv4.min.js"></script>
+    <script>
+
+        function randomize() {
+            document.getElementById("roomName").value = uuidv4();
+        }
+
+        document.getElementById('roomLockedCheck').addEventListener('change', function () {
+            var roomKeyInput = document.getElementById('roomKey');
+            var roomLockedInput = document.querySelector('input[name="roomLockedOutput"]');
+            roomKeyInput.style.display = this.checked ? 'block' : 'none';
+            roomKeyInput.required = this.checked;
+            roomLockedInput.value = this.checked ? "true" : "false";
+        });
+
+    </script>
+</body>
+
+</html>

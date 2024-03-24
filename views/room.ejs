@@ -13,6 +13,28 @@
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
     <script src="/socket.io/socket.io.js" defer></script>
     <script src="script.js" defer></script>
+    <style>
+        /* Add custom tooltip */
+        video[data-username]::after {
+            content: attr(data-username);
+            position: absolute;
+            bottom: -25px;
+            /* Adjust the position of the tooltip as per your layout */
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 5px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            border-radius: 5px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        video[data-username]:hover::after {
+            opacity: 1;
+        }
+    </style>
 </head>
 
 <body>
@@ -33,7 +55,7 @@
         function leaveRoom() {
             window.location.href = "/lobby";
         }
-        document.getElementById("urlCopy").value = window.location.href.split('/')[3];
+        document.getElementById("urlCopy").value = ROOM_ID;
     </script>
 </body>
 

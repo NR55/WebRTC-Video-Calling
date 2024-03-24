@@ -5,56 +5,68 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: #333333;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #222629;
+  color: goldenrod;
+  font-family: Arial, sans-serif;
+  background-image: url("img2.jpg");
+  background-size: cover;
+  font-size: 15px;
 }
 
-.forms {
-  background-color: #ffffff;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.forms h2 {
-  margin-bottom: 20px;
+h2 {
   text-align: center;
+  font-size: 30px;
+  margin-bottom: 30px;
 }
 
-.forms input[type="text"],
-.forms input[type="email"],
-.forms input[type="password"],
-.forms input[type="submit"] {
+.form-container {
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #474b4f;
+  border-radius: 15px; /* Increased border-radius */
+  background-color: #474b4f; 
+  z-index: 2;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input {
   width: 100%;
-  margin-bottom: 15px;
-  padding: 12px;
-  box-sizing: border-box;
-  border: 1px solid #dcdcdc;
-  border-radius: 5px;
-  font-size: 16px;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #474b4f;
+  border-radius: 3px;
 }
 
-.forms input[type="submit"],
-input[type="submit"] {
-  background-color: #4caf50;
-  color: #ffffff;
+.submit-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: goldenrod; /* Changed background color to golden */
+  color: black; /* Changed text color to golden */
+  font-size: 12px;
+  border: none;
+  border-radius: 5px; /* Increased border-radius */
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.forms input[type="submit"]:hover {
-  background-color: #45a049;
-}
-
-.message {
-  color: #d32f2f;
-  margin-bottom: 15px;
+.submit-btn:hover {
+  background-color: #b8860b; /* Darker shade of golden */
+  color: #fff; /* Changed text color to white */
 }
 
 p {
