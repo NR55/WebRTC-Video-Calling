@@ -1,5 +1,7 @@
 const socket = io('/');
 const videoGrid = document.getElementById('video-grid');
+const videoGrid1 = document.getElementById('video-grid1');
+
 const myPeer = new Peer(undefined, {
     host: '/',
     port: '3001'
@@ -10,11 +12,13 @@ const peers = {};
 
 socket.on('chat-message', data => {
     appendMessage(data);
+    appendMessage1(data);
 });
 
 socket.on('user-disconnected', data => {
     const {userId, username} = data;
     appendMessage({username:"Server", text: `${username} disconnected.` })
+    appendMessage1({username:"Server", text: `${username} disconnected.` })
     if (peers[userId]) peers[userId].close();
 })
 
@@ -38,17 +42,61 @@ function connectToNewUser(userId, stream, username) {
     });
     peers[userId] = call;
     appendMessage({ username:"Server", text: `${username} connected` });
+    appendMessage1({ username:"Server", text: `${username} connected` });
 }
 
 function addVideoStream(video, stream) {
+    console.log(video, "HHHHHHHHHHHHHHHHHHH");
     video.srcObject = stream
     video.addEventListener('loadedmetadata', () => {
         video.play()
     })
+    video.classList.add('col'); // Add your desired class name here
     videoGrid.append(video);
 }
 
+function addVideoStream1(video, stream) {
+    video.srcObject = stream
+    video.addEventListener('loadedmetadata', () => {
+        video.play()
+    })
+    videoGrid1.append(video);
+}
+
 function appendMessage(data) {
+    let { username, text } = data;
+    const messageContainer = document.getElementById('cont');
+    const messageElement = document.createElement('div');
+    messageElement.className = "alert alert-primary alert-dismissible fade show"; // Bootstrap alert classes
+    messageElement.setAttribute('role', 'alert');
+    if (username == USER_NAME) {
+        messageElement.classList.add("myMessage");
+        messageElement.innerHTML = `
+            <strong>You:</strong> ${text}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+    } else if (username == "Server") {
+        messageElement.classList.add("serverMessage");
+        messageElement.innerHTML = `
+            ${text}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+    } else {
+        messageElement.classList.add("others");
+        messageElement.innerHTML = `
+            <strong>${username}:</strong> ${text}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        `;
+    }
+    messageContainer.appendChild(messageElement);
+
+    // Automatically close the alert after 5 seconds
+    setTimeout(function() {
+        messageElement.remove();
+    }, 5000);
+}
+
+function appendMessage1(data) {
     let { username, text } = data;
     const messageElement = document.createElement('div');
     if (username == USER_NAME) {
@@ -70,11 +118,12 @@ navigator.mediaDevices.getUserMedia({
     video: true,
     audio: true
 }).then(stream => {
-    addVideoStream(myVideo, stream);
+    addVideoStream1(myVideo, stream);
 
     myPeer.on('call', call => {
         call.answer(stream);
         const video = document.createElement('video');
+        console.log(call)
         call.on('stream', userVideoStream => {
             addVideoStream(video, userVideoStream);
         });
