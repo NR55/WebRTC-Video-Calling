@@ -49,7 +49,7 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  const { username, email, password, premiumOutput, upiID } = req.body;
+  const { username, email, password, premiumOutput, UPI_ID } = req.body;
   try {
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
@@ -58,17 +58,65 @@ app.post("/register", async (req, res) => {
       });
     }
     const premium = (premiumOutput == "true") ? true : false;
-    const newUser = new User({ username, email, password, premium });
     const saltRounds = 10;
-    newUser.password = await bcrypt.hash(newUser.password, saltRounds);
-    await newUser.save();
-    req.session.username = newUser.user;
-    req.session.isAuthenticated = true;
-    res.redirect("/");
+    const newPassword = await bcrypt.hash(password, saltRounds);
+    if (premium) {
+      res.render("payment.ejs", {
+        username: username,
+        email: email,
+        upiID: UPI_ID,
+        premiumOutput: premiumOutput,
+        password: newPassword
+      });
+    } else {
+      const newUser = new User({ username, email, password: newPassword, premium });
+      await newUser.save();
+      req.session.username = newUser.username;
+      req.session.isAuthenticated = true;
+      res.redirect("/");
+    }
   } catch (error) {
     console.error("Error occurred during registration:", error);
     res.render("register.ejs", {
-      error: "An error occurred, please try again later",
+      error: "An error occurred, please try again.",
+    });
+  }
+});
+
+app.get("/payment", (req, res) => {
+  if (req.query) {
+    const { username, email, password, premiumOutput, upiID } = req.query;
+    res.render("payment.ejs", {
+      username,
+      email,
+      password,
+      premiumOutput,
+      upiID
+    });
+  }
+  else
+    res.redirect("/");
+});
+
+app.post("/payment", async (req, res) => {
+  try {
+    const { action, username, email, password, premiumOutput, upiID } = req.body;
+    if (action === "cancel") {
+      res.render("register.ejs", {
+        error: "Payment failed, please try again.",
+      });
+    } else {
+      const premium = (premiumOutput == "true") ? true : false;
+      const newUser = new User({ username, email, password, premium });
+      await newUser.save();
+      req.session.username = newUser.username;
+      req.session.isAuthenticated = true;
+      res.redirect("/");
+    }
+  } catch (error) {
+    console.error("Error occurred during registration:", error);
+    res.render("register.ejs", {
+      error: "An error occurred, please try again.",
     });
   }
 });
@@ -97,13 +145,13 @@ app.post("/login", async (req, res) => {
   } catch (error) {
     console.error("Error occurred during login:", error);
     res.render("login.ejs", {
-      error: "An error occurred, please try again later", username: ""
+      error: "An error occurred, please try again.", username: ""
     });
   }
 });
 
 app.get("/roomLogin", isAuthenticated, (req, res) => {
-  res.render("roomLogin.ejs", {error: ""});
+  res.render("roomLogin.ejs", { error: "" });
 });
 
 app.post("/roomLogin", async (req, res) => {
@@ -111,8 +159,8 @@ app.post("/roomLogin", async (req, res) => {
   try {
     const room = await Rooms.findOne({ roomName: roomID });
     if (room) {
-      if (password==room.roomKey || !room.roomLocked) {
-        res.redirect(`/${roomID}`); 
+      if (password == room.roomKey || !room.roomLocked) {
+        res.redirect(`/${roomID}`);
       } else {
         res.render("roomLogin.ejs", { error: "Invalid room key." });
       }
@@ -122,19 +170,19 @@ app.post("/roomLogin", async (req, res) => {
   } catch (error) {
     console.error("Error occurred during login:", error);
     res.render("roomLogin.ejs", {
-      error: "An error occurred, please try again later",
+      error: "An error occurred, please try again.",
     });
   }
 });
 
 app.get("/lobby", isAuthenticated, (req, res) => {
-  res.render("lobby.ejs", {username: req.session.username});
+  res.render("lobby.ejs", { username: req.session.username });
 });
 
 app.get("/profile", isAuthenticated, async (req, res) => {
   const user = await User.findOne({ username: req.session.username });
   const rooms = await Rooms.find({ creator_Username: req.session.username });
-  res.render("profile.ejs", { username: req.session.username , email : user.email, message : "", rooms});
+  res.render("profile.ejs", { username: req.session.username, email: user.email, message: "", rooms });
 });
 
 app.get("/logout", (req, res) => {
@@ -159,45 +207,43 @@ app.get("/create", isAuthenticated, async (req, res) => {
 });
 
 app.post("/create", async (req, res) => {
-  const { roomName, adminPassword, description, roomLockedOutput, roomKey } = req.body;
+  const { roomName, description, roomLockedOutput, roomKey } = req.body;
   try {
     const rooms = await Rooms.find({ creator_Username: req.session.username });
     const user = await User.findOne({ username: req.session.username });
-    if(user.premium){
+    if (user.premium) {
       if (rooms.length >= 3)
         return res.render("profile.ejs", { username: req.session.username, email: user.email, message: "Room Limit reached.", rooms });
     }
     else if (rooms.length >= 2)
       return res.render("profile.ejs", { username: req.session.username, email: user.email, message: "Room Limit reached.", rooms });
-    const existingRoom = await Rooms.findOne({roomName});
+    const existingRoom = await Rooms.findOne({ roomName });
     if (existingRoom) {
       return res.render("create.ejs", {
         error: "Room already exists",
       });
     }
-    const roomLocked=(roomLockedOutput=="true")?true:false;
-    const username=req.session.username;
-    const currDate=new Date();
-    const newRoom = new Rooms({ roomName, creation: currDate, creator_Username : username, adminPassword, description, roomLocked, roomKey });
-    const saltRounds = 10;
-    newRoom.adminPassword = await bcrypt.hash(adminPassword, saltRounds);
+    const roomLocked = (roomLockedOutput == "true") ? true : false;
+    const username = req.session.username;
+    const currDate = new Date();
+    const newRoom = new Rooms({ roomName, creation: currDate, creator_Username: username, description, roomLocked, roomKey });
     await newRoom.save();
     req.session.isAuthenticated = true;
     res.redirect(`/${roomName}`);
   } catch (error) {
     console.error("Error occurred during registration:", error);
     res.render("create.ejs", {
-      error: "An error occurred, please try again later",
+      error: "An error occurred, please try again.",
     });
   }
 });
 
 app.get("/:room", isAuthenticated, async (req, res) => {
-  res.render("room.ejs", { roomId: req.params.room , username: req.session.username});
+  res.render("room.ejs", { roomId: req.params.room, username: req.session.username });
 });
 
 app.post("/delete/:room", isAuthenticated, async (req, res) => {
-  Rooms.deleteOne({roomName: req.params.room})
+  Rooms.deleteOne({ roomName: req.params.room })
   const user = await User.findOne({ username: req.session.username });
   const deletionResult = await Rooms.deleteOne({ roomName: req.params.room });
   const rooms = await Rooms.find({ creator_Username: req.session.username });
@@ -223,7 +269,7 @@ io.on('connection', socket => {
     });
 
     socket.on('disconnect', () => {
-      io.to(roomId).emit('user-disconnected', {userId, username});
+      io.to(roomId).emit('user-disconnected', { userId, username });
     });
   });
 });

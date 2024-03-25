@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/loader.css">
+    <style>
+        .button-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .submit-btn {
+            display: inline-block;
+            margin-right: 10px;
+            width: 5em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="waiting-overlay" id="waitingOverlay" style="display: none;">
+        <div class="waiting-overlay-content">
+            <p>Processing, please wait...</p><br>
+            <div class="loader"></div>
+        </div>
+    </div>
+    <div class="form-container">
+        <h2>Payment</h2>
+        <p>UPI ID: <%= upiID %>
+        </p>
+        <br><br>
+        <form action="/payment" method="post" id="payForm">
+            <input type="hidden" name="username" value="<%= username %>">
+            <input type="hidden" name="email" value="<%= email %>">
+            <input type="hidden" name="password" value="<%= password %>">
+            <input type="hidden" name="premiumOutput" value="<%= premiumOutput %>">
+            <input type="hidden" name="upiID" value="<%= upiID %>">
+            <div class="button-container">
+                <button type="button" class="submit-btn" onclick="waiting()">Okay</button>
+                <button type="submit" name="action" class="submit-btn" value="cancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        function waiting() {
+            document.getElementsByClassName('submit-btn').disabled = true;
+            document.getElementById('payForm').classList.add('blur');
+            document.getElementById('waitingOverlay').style.display = 'flex';
+            setTimeout(function () {
+                document.getElementById('payForm').submit();
+            }, 5000);
+        }
+    </script>
+</body>
+
+</html>
