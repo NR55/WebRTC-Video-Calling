@@ -245,7 +245,14 @@ app.post("/create", async (req, res) => {
 
 app.get("/:room", isAuthenticated, async (req, res) => {
   const user = await User.findOne({ username: req.session.username });
-  res.render("room.ejs", { roomId: req.params.room, username: req.session.username, prem: user.premium });
+  const rooms = await Rooms.findOne({ roomName: req.params.room });
+  let desc;
+  try {
+    desc = rooms.description;
+  }catch{
+    desc="";
+  }
+  res.render("room.ejs", { roomId: req.params.room, username: req.session.username, prem: user.premium, desc });
 });
 
 app.post("/delete/:room", isAuthenticated, async (req, res) => {
