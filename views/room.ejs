@@ -40,21 +40,25 @@
             opacity: 1;
         }
 
-        #video-grid {
+        .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 10px;
-            max-width: 1300px;
-            margin-bottom: 120px;
-            /* Adjust bottom margin to accommodate video-grid1 */
+            width: 1200px;
+            height: 700px;
+            gap: 2rem;
+            margin-top: 20px;
         }
 
-        #video-grid video {
-            width: 100%;
-            /* Adjust width */
-            height: auto;
-            position: relative;
-            margin: auto;
+        .grid-container--fit {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-container>video {
+            width: 95%;
+            padding: 2px;
+            max-height: 100%;
+            border: solid 1px;
+            border-radius: 5%;
+            z-index: -1;
         }
 
         #video-grid1 {
@@ -110,14 +114,15 @@
             /* Push the form to the bottom */
         }
 
-        .but-container{
+        .but-container {
             margin-top: auto;
             margin-bottom: 2rem;
         }
     </style>
 </head>
 
-<body>
+<body class="area">
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
@@ -127,86 +132,97 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
-    <div id="cont"></div>
-    <h1>Username : <%=username%>
-    </h1>
-    <div id="video-grid"></div>
-    <div id="video-grid1"></div>
-    <div class="chat-container" id="chat-container">
-        <h4
-            style="max-width: fit-content; margin: auto; margin-top: 5px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
-            Chat Box</h4>
-        <div id="chat"></div>
-        <form class="row g-3" id="chat-form">
-            <div class="col-auto">
-                <input type="text" class="form-control-plaintext form-control" id="chat-input"
-                    placeholder="Type your message...">
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                        height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+        <ul class="circles" style="z-index: -1;">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <div id="cont"></div>
+        <h1 style="font-family: system-ui; color: white; margin-top: 10px">Live Video Call
+        </h1>
+        <div id="video-grid" class="grid-container grid-container--fit"></div>
+        <div id="video-grid1"></div>
+        <div class="chat-container" id="chat-container">
+            <h4
+                style="max-width: fit-content; margin: auto; margin-top: 5px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
+                Chat Box</h4>
+            <div id="chat"></div>
+            <form class="row g-3" id="chat-form">
+                <div class="col-auto">
+                    <input type="text" class="form-control-plaintext form-control" id="chat-input"
+                        placeholder="Type your message...">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary mb-3"><svg xmlns="http://www.w3.org/2000/svg"
+                            width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
+                            <path
+                                d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
+                        </svg></button>
+                </div>
+            </form>
+        </div>
+        <br><br>
+        <div class="but-container">
+            <div class="but-container-in">
+                <button type="submit" class="submit-btn end-call btn btn-danger" onclick="leaveRoom()"><svg
+                        xmlns="http://www.w3.org/2000/svg" width="20" height="26" fill="currentColor"
+                        class="bi bi-telephone" viewBox="0 0 16 16">
                         <path
-                            d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
-                    </svg></button>
-            </div>
-        </form>
-    </div>
-    <br><br>
-    <div class="but-container">
-        <div class="but-container-in">
-            <button type="submit" class="submit-btn end-call btn btn-danger" onclick="leaveRoom()"><svg
-                    xmlns="http://www.w3.org/2000/svg" width="20" height="26" fill="currentColor"
-                    class="bi bi-telephone" viewBox="0 0 16 16">
-                    <path
-                        d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
-                </svg>
-            </button>
-            <button type="button" class="submit-btn btn btn-success" onclick="toggleChat()"><svg
-                    xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat"
-                    viewBox="0 0 16 16">
-                    <path
-                        d="M2.678 11.894a1 1 0 0 1 .287.801 11 11 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8 8 0 0 0 8 14c3.996 0 7-2.807 7-6s-3.004-6-7-6-7 2.808-7 6c0 1.468.617 2.83 1.678 3.894m-.493 3.905a22 22 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a10 10 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105" />
-                </svg> Chat</button>
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-warning info-but" data-bs-toggle="modal"
-                data-bs-target="#exampleModal">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-info-circle" viewBox="0 0 16 16">
-                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                    <path
-                        d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
-                </svg>
-            </button>
+                            d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
+                    </svg>
+                </button>
+                <button type="button" class="submit-btn btn btn-success" onclick="toggleChat()"><svg
+                        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M2.678 11.894a1 1 0 0 1 .287.801 11 11 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8 8 0 0 0 8 14c3.996 0 7-2.807 7-6s-3.004-6-7-6-7 2.808-7 6c0 1.468.617 2.83 1.678 3.894m-.493 3.905a22 22 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a10 10 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105" />
+                    </svg> Chat</button>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-warning info-but" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-info-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                        <path
+                            d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                    </svg>
+                </button>
 
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Room Info</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="container">
-                                <h4>Hi <%=username%>!</h4>
-                                <label for="copyTarget" style="font-family: system-ui;">Room ID</label>
-                                <div class="input-group">
-                                    <span id="copyButton" class="input-group-addon btn" title="Click to copy" onclick="copyContent()">
-                                        <i class="fa fa-clipboard" aria-hidden="true"></i>
-                                    </span>
-                                    <input type="text" readonly id="copyTarget" class="form-control">
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true" style="z-index: 2000;">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Room Info</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container">
+                                    <h4>Hi <%=username%>!</h4>
+                                    <label for="copyTarget" style="font-family: system-ui;">Room ID</label>
+                                    <div class="input-group">
+                                        <span id="copyButton" class="input-group-addon btn" title="Click to copy"
+                                            onclick="copyContent()">
+                                            <i class="fa fa-clipboard" aria-hidden="true"></i>
+                                        </span>
+                                        <input type="text" readonly id="copyTarget" class="form-control">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     <script>
         function leaveRoom() {
             window.location.href = "/lobby";
@@ -229,3 +245,6 @@
             navigator.clipboard.writeText(copyText.value);
         }
     </script>
+
+</body>
+</html>

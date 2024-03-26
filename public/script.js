@@ -51,7 +51,6 @@ function addVideoStream(video, stream) {
     video.addEventListener('loadedmetadata', () => {
         video.play()
     })
-    video.classList.add('col'); // Add your desired class name here
     videoGrid.append(video);
 }
 
