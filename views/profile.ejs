@@ -85,9 +85,12 @@ th {
     <% if (prem===true) { %>
       <link rel="stylesheet" href="/prem.css">
     <% } %>
+    <link rel="stylesheet" href="/navbar.css">
 </head>
 
-<body>
+<body style="display: flex; align-items: normal;
+justify-content: normal;">
+  <div id="navbar" style="margin-bottom: 70px;"></div>
     <h1>Profile</h1>
     <br>
 
@@ -130,7 +133,7 @@ th {
                             <%= room.description %>
                         </td>
                         <td>
-                            <form action="/<%= room.roomName %>" method="get">                            
+                            <form action="/<%= room.roomName %>" method="get">
                             <input type="submit" class="submit-btn" value="Join">
                             </form>
                         <!-- </td>
@@ -148,8 +151,9 @@ th {
 
 
     <form action="/" method="get">
-        <input type="submit" class="submit-btn" value="Back">
+        <input type="submit" class="submit-btn" style="width: 70px; margin: auto;" value="Back">
     </form>
+    <script src="/navbar.js"></script>
 </body>
 
 </html>

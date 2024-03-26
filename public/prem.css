@@ -11,12 +11,14 @@ body {
   align-items: center;
   justify-content: center;
   background-color: #222629;
-  color: goldenrod;
+  color: rgb(212, 152, 1);
   font-family: Arial, sans-serif;
   background-image: url("prem.jpg");
   background-size: cover;
   font-size: 15px;
+  font-weight: 700;
 }
+
 
 h2 {
   text-align: center;
@@ -29,8 +31,8 @@ h2 {
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #474b4f;
-  border-radius: 15px; 
-  background-color: #474b4f; 
+  border-radius: 15px;
+  background-color: #474b4f;
   z-index: 2;
 }
 
@@ -56,8 +58,8 @@ h2 {
   display: block;
   width: 100%;
   padding: 10px;
-  background-color: goldenrod; 
-  color: black; 
+  background-color: goldenrod;
+  color: black;
   font-size: 12px;
   border: none;
   border-radius: 5px;
@@ -65,8 +67,8 @@ h2 {
 }
 
 .submit-btn:hover {
-  background-color: #b8860b; 
-  color: #fff; 
+  background-color: #b8860b;
+  color: #fff;
 }
 
 p {
@@ -105,10 +107,14 @@ p {
 }
 
 .form-check-input:checked + .toggle-label {
-  background-color: goldenrod; 
+  background-color: goldenrod;
 }
 
 .form-check-input:checked + .toggle-label:before {
   transform: translateX(25px);
 }
 
+.profile-data{
+  color: rgb(212, 152, 1);
+  font-weight: 700;
+}

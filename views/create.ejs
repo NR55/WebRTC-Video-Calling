@@ -22,9 +22,12 @@
       vertical-align: middle;
     }
     </style>
+    <link rel="stylesheet" href="/navbar.css">
 </head>
 
-<body>
+<body style="display: flex; align-items: normal;
+justify-content: normal;">
+<div id="navbar"></div>
     <div class="form-container">
         <h2>Create Room</h2>
         <% if (error) { %>
@@ -78,6 +81,7 @@
         });
 
     </script>
+    <script src="/navbar.js"></script>
 </body>
 
 </html>

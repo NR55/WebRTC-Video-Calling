@@ -106,6 +106,7 @@ input[type="submit"]:hover {
   padding: 10px;
   background: white;
   border-radius: 30px;
+  border: solid 2px;
   width: 500px;
 }
 

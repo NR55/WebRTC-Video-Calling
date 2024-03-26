@@ -9,9 +9,11 @@
     <% if (prem===true) { %>
         <link rel="stylesheet" href="/prem.css">
     <% } %>
+    <link rel="stylesheet" href="/navbar.css">
 </head>
 
-<body>
+<body style="display: flex; align-items: normal; justify-content: normal;">
+    <div id="navbar"></div>
     <div class="form-container">
         <h2>Room Login</h2>
         <% if (error) { %>
@@ -32,6 +34,7 @@
                     <input type="submit" value="Join" class="submit-btn" />
                 </form>
     </div>
+    <script src="/navbar.js"></script>
 </body>
 
 </html>
