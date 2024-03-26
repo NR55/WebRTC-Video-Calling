@@ -46,7 +46,6 @@ function connectToNewUser(userId, stream, username) {
 }
 
 function addVideoStream(video, stream) {
-    console.log(video, "HHHHHHHHHHHHHHHHHHH");
     video.srcObject = stream
     video.addEventListener('loadedmetadata', () => {
         video.play()
@@ -66,23 +65,25 @@ function appendMessage(data) {
     let { username, text } = data;
     const messageContainer = document.getElementById('cont');
     const messageElement = document.createElement('div');
-    messageElement.className = "alert alert-primary alert-dismissible fade show"; // Bootstrap alert classes
+    messageElement.className = "alert alert-warning alert-dismissible fade show"; // Bootstrap alert classes
     messageElement.setAttribute('role', 'alert');
     if (username == USER_NAME) {
-        messageElement.classList.add("myMessage");
         messageElement.innerHTML = `
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
             <strong>You:</strong> ${text}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         `;
     } else if (username == "Server") {
-        messageElement.classList.add("serverMessage");
         messageElement.innerHTML = `
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+
             ${text}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         `;
     } else {
-        messageElement.classList.add("others");
         messageElement.innerHTML = `
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+
             <strong>${username}:</strong> ${text}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         `;
@@ -92,26 +93,27 @@ function appendMessage(data) {
     // Automatically close the alert after 5 seconds
     setTimeout(function() {
         messageElement.remove();
-    }, 5000);
+    }, 2000);
 }
 
 function appendMessage1(data) {
     let { username, text } = data;
     const messageElement = document.createElement('div');
     if (username == USER_NAME) {
-        messageElement.className = "myMessage";
-        messageElement.innerText = `You: ${text}`;
+        messageElement.className = "myMessage each-msg";
+        messageElement.innerHTML = `<strong>You</strong>: ${text}`;
     }
     else if (username == "Server") {
-        messageElement.className = "serverMessage";
-        messageElement.innerText = ` ${text}`;
+        messageElement.className = "serverMessage each-msg";
+        messageElement.innerHTML = `${text}`;
     }
-    else{
-        messageElement.className = "others";
-        messageElement.innerText = `${username}: ${text}`;
+    else {
+        messageElement.className = "others each-msg";
+        messageElement.innerHTML = `<strong>${username}</strong>: ${text}`;
     }
     document.getElementById('chat').appendChild(messageElement);
 }
+
 
 navigator.mediaDevices.getUserMedia({
     video: true,

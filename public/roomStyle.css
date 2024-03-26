@@ -34,7 +34,7 @@ body {
 #chat {
   width: 100%;
   overflow-y: auto;
-  max-height: 300px;
+  max-height: 650px;
   margin-bottom: 10px;
 }
 
@@ -46,9 +46,17 @@ body {
   padding-left: 5px;
 }
 
+.each-msg{
+  padding: 4px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin-bottom: 2px;
+}
+
 
 .myMessage {
-    color: aqua;
+  padding-left: 25px;
+  border-left: solid 4px rgb(27, 158, 27);
+  background: #f2f2f2;
 }
 
 .serverMessage {
@@ -56,7 +64,10 @@ body {
 }
 
 .others {
+    padding-left: 12px;
     color: black;
+    border-left: solid 4px;
+    background: #f2f2f2;
 }
 
 input[type="submit"] {
@@ -213,31 +224,31 @@ input[type="submit"]:hover {
 
 .circles li:nth-child(2){
     left: 10%;
-    width: 20px;
-    height: 20px;
+    width: 120px;
+    height: 120px;
     animation-delay: 2s;
     animation-duration: 12s;
 }
 
 .circles li:nth-child(3){
-    left: 70%;
-    width: 20px;
-    height: 20px;
+    left: 5%;
+    width: 70px;
+    height: 70px;
     animation-delay: 4s;
 }
 
 .circles li:nth-child(4){
     left: 40%;
-    width: 60px;
-    height: 60px;
+    width: 100px;
+    height: 100px;
     animation-delay: 0s;
     animation-duration: 18s;
 }
 
 .circles li:nth-child(5){
     left: 65%;
-    width: 20px;
-    height: 20px;
+    width: 80px;
+    height: 80px;
     animation-delay: 0s;
 }
 
@@ -257,16 +268,16 @@ input[type="submit"]:hover {
 
 .circles li:nth-child(8){
     left: 50%;
-    width: 25px;
-    height: 25px;
+    width: 90px;
+    height: 90px;
     animation-delay: 15s;
     animation-duration: 45s;
 }
 
 .circles li:nth-child(9){
     left: 20%;
-    width: 15px;
-    height: 15px;
+    width: 45px;
+    height: 55px;
     animation-delay: 2s;
     animation-duration: 35s;
 }
@@ -305,4 +316,14 @@ input[type="submit"]:hover {
         border-radius: 50%;
     }
 
+}
+
+.msg-but{
+  display: grid;
+  grid-template-columns: 200px 700px;
+  gap: 10px;
+}
+
+body{
+  background: linear-gradient(to bottom right, rgb(3, 3, 42), rgb(53, 91, 147));
 }
