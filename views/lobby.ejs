@@ -6,30 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby</title>
     <link rel="stylesheet" href="/style.css" />
+    <% if (prem===true) { %>
+        <link rel="stylesheet" href="/prem.css">
+        <% } %>
+            <link rel="stylesheet" href="/stars.css">
 </head>
 
 <body>
+    <section id="stars-container"></section>
     <div class="form-container">
-    <h2>Welcome to the Lobby : <br> <%= username %></h2>
-    <input type="submit" class="submit-btn" onclick="joinRoom()" value="Join an Existing Meeting"><br>
-    <input type="submit" class="submit-btn" onclick="createRoom()" value="Create a New Meeting"><br>
-    <form id="form" action="/profile" method="get">
-    <input type="submit" class="submit-btn" onclick="profile()" value="Profile"><br>
-    </form>
-    <form id="logout-form" action="/logout" method="get">
-        <input type="submit" class="submit-btn" value="Logout">
-    </form>
+        <h2>Welcome to the Lobby : <br>
+            <%= username %>
+        </h2>
+        <input type="submit" class="submit-btn" onclick="joinRoom()" value="Join an Existing Meeting"><br>
+        <input type="submit" class="submit-btn" onclick="createRoom()" value="Create a New Meeting"><br>
+        <form id="form" action="/profile" method="get">
+            <input type="submit" class="submit-btn" onclick="profile()" value="Profile"><br>
+        </form>
+        <form id="logout-form" action="/logout" method="get">
+            <input type="submit" class="submit-btn" value="Logout">
+        </form>
 
-    <script>
-        function joinRoom() {
+        <script>
+            function joinRoom() {
                 window.open("/roomLogin", "_blank");
-        }
+            }
 
-        function createRoom() {
-            window.open("/create", "_blank"); 
-        }
-    </script>
-
+            function createRoom() {
+                window.open("/create", "_blank");
+            }
+        </script>
+        <script src="stars.js"></script>
 </body>
 
 </html>

@@ -150,39 +150,43 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/roomLogin", isAuthenticated, (req, res) => {
-  res.render("roomLogin.ejs", { error: "" });
+app.get("/roomLogin", isAuthenticated, async (req, res) => {
+  const user = await User.findOne({ username: req.session.username });
+  res.render("roomLogin.ejs", { prem: user.premium ,error: "" });
 });
 
 app.post("/roomLogin", async (req, res) => {
   let { roomID, password } = req.body;
   try {
+    const user = await User.findOne({ username: req.session.username });
     const room = await Rooms.findOne({ roomName: roomID });
     if (room) {
       if (password == room.roomKey || !room.roomLocked) {
         res.redirect(`/${roomID}`);
       } else {
-        res.render("roomLogin.ejs", { error: "Invalid room key." });
+        res.render("roomLogin.ejs", { error: "Invalid room key." , prem: user.premium});
       }
     } else {
-      res.render("roomLogin.ejs", { error: "Invalid room ID." });
+      res.render("roomLogin.ejs", { error: "Invalid room ID.", prem: user.premium });
     }
   } catch (error) {
     console.error("Error occurred during login:", error);
+    const user = await User.findOne({ username: req.session.username });
     res.render("roomLogin.ejs", {
-      error: "An error occurred, please try again.",
+      error: "An error occurred, please try again.", prem: user.premium
     });
   }
 });
 
-app.get("/lobby", isAuthenticated, (req, res) => {
-  res.render("lobby.ejs", { username: req.session.username });
+app.get("/lobby", isAuthenticated, async (req, res) => {
+  const user = await User.findOne({ username: req.session.username });
+  res.render("lobby.ejs", { username: req.session.username, prem: user.premium });
 });
 
 app.get("/profile", isAuthenticated, async (req, res) => {
   const user = await User.findOne({ username: req.session.username });
   const rooms = await Rooms.find({ creator_Username: req.session.username });
-  res.render("profile.ejs", { username: req.session.username, email: user.email, message: "", rooms });
+  res.render("profile.ejs", { username: req.session.username, email: user.email, message: "", rooms , prem: user.premium});
 });
 
 app.get("/logout", (req, res) => {
@@ -199,11 +203,11 @@ app.get("/create", isAuthenticated, async (req, res) => {
   const user = await User.findOne({ username: req.session.username });
   if (user.premium) {
     if (rooms.length >= 3)
-      return res.render("profile.ejs", { username: req.session.username, email: user.email, message: "Room Limit reached.", rooms });
+      return res.render("profile.ejs", { username: req.session.username, email: user.email, message: "Room Limit reached.", rooms , prem: user.premium});
   }
   else if (rooms.length >= 2)
-    return res.render("profile.ejs", { username: req.session.username, email: user.email, message: "Room Limit reached.", rooms });
-  res.render("create.ejs", { error: "" });
+    return res.render("profile.ejs", { username: req.session.username, email: user.email, message: "Room Limit reached.", rooms, prem: user.premium });
+  res.render("create.ejs", { error: "", prem: user.premium });
 });
 
 app.post("/create", async (req, res) => {
@@ -213,14 +217,14 @@ app.post("/create", async (req, res) => {
     const user = await User.findOne({ username: req.session.username });
     if (user.premium) {
       if (rooms.length >= 3)
-        return res.render("profile.ejs", { username: req.session.username, email: user.email, message: "Room Limit reached.", rooms });
+        return res.render("profile.ejs", { username: req.session.username, email: user.email, message: "Room Limit reached.", rooms, prem: user.premium });
     }
     else if (rooms.length >= 2)
-      return res.render("profile.ejs", { username: req.session.username, email: user.email, message: "Room Limit reached.", rooms });
+      return res.render("profile.ejs", { username: req.session.username, email: user.email, message: "Room Limit reached.", rooms, prem: user.premium });
     const existingRoom = await Rooms.findOne({ roomName });
     if (existingRoom) {
       return res.render("create.ejs", {
-        error: "Room already exists",
+        error: "Room already exists", prem: user.premium
       });
     }
     const roomLocked = (roomLockedOutput == "true") ? true : false;
@@ -231,15 +235,17 @@ app.post("/create", async (req, res) => {
     req.session.isAuthenticated = true;
     res.redirect(`/${roomName}`);
   } catch (error) {
+    const user = await User.findOne({ username: req.session.username });
     console.error("Error occurred during registration:", error);
     res.render("create.ejs", {
-      error: "An error occurred, please try again.",
+      error: "An error occurred, please try again.", prem: user.premium
     });
   }
 });
 
 app.get("/:room", isAuthenticated, async (req, res) => {
-  res.render("room.ejs", { roomId: req.params.room, username: req.session.username });
+  const user = await User.findOne({ username: req.session.username });
+  res.render("room.ejs", { roomId: req.params.room, username: req.session.username, prem: user.premium });
 });
 
 app.post("/delete/:room", isAuthenticated, async (req, res) => {
@@ -248,15 +254,16 @@ app.post("/delete/:room", isAuthenticated, async (req, res) => {
   const deletionResult = await Rooms.deleteOne({ roomName: req.params.room });
   const rooms = await Rooms.find({ creator_Username: req.session.username });
   if (deletionResult.deletedCount === 1) {
-    res.render("profile.ejs", { username: req.session.username, email: user.email, message: `${req.params.room} successfully deleted.`, rooms });
+    res.render("profile.ejs", { username: req.session.username, email: user.email, message: `${req.params.room} successfully deleted.`, rooms, prem: user.premium });
   } else {
     // res.render("profile.ejs", { username: req.session.username, email: user.email, message: `Room ${req.params.room} not found.`, rooms });
     res.redirect("/profile");
   }
 });
 
-app.get("/", isAuthenticated, (req, res) => {
-  res.render("lobby.ejs", { username: req.session.username });
+app.get("/", isAuthenticated, async (req, res) => {
+  const user = await User.findOne({ username: req.session.username });
+  res.render("lobby.ejs", { username: req.session.username, prem: user.premium });
 });
 
 io.on('connection', socket => {

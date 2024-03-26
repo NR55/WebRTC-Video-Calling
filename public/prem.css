@@ -11,32 +11,11 @@ body {
   align-items: center;
   justify-content: center;
   background-color: #222629;
-  color:bisque;
+  color: goldenrod;
   font-family: Arial, sans-serif;
+  background-image: url("prem.jpg");
   background-size: cover;
   font-size: 15px;
-    background: linear-gradient(236deg, #000000, #818181);
-    background-size: 400% 400%;
-
-    -webkit-animation: AnimationName 30s ease infinite;
-    -moz-animation: AnimationName 30s ease infinite;
-    animation: AnimationName 30s ease infinite;
-}
-
-@-webkit-keyframes AnimationName {
-    0%{background-position:0% 45%}
-    50%{background-position:100% 56%}
-    100%{background-position:0% 45%}
-}
-@-moz-keyframes AnimationName {
-    0%{background-position:0% 45%}
-    50%{background-position:100% 56%}
-    100%{background-position:0% 45%}
-}
-@keyframes AnimationName {
-    0%{background-position:0% 45%}
-    50%{background-position:100% 56%}
-    100%{background-position:0% 45%}
 }
 
 h2 {
@@ -77,8 +56,8 @@ h2 {
   display: block;
   width: 100%;
   padding: 10px;
-  background-color:lightslategrey; 
-  color: azure; 
+  background-color: goldenrod; 
+  color: black; 
   font-size: 12px;
   border: none;
   border-radius: 5px;
@@ -86,8 +65,8 @@ h2 {
 }
 
 .submit-btn:hover {
-  background-color: rgb(162, 208, 255); 
-  color: #494949; 
+  background-color: #b8860b; 
+  color: #fff; 
 }
 
 p {
